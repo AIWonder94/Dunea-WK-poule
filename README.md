@@ -141,10 +141,28 @@ npm start
 ```
 
 ### Vercel (Aanbevolen)
+
+**Stap 1: Gratis Postgres database aanmaken**
+1. Ga naar [neon.tech](https://neon.tech) en maak een gratis account
+2. Maak een project/database aan (kies regio dicht bij je Vercel regio)
+3. Kopieer de **Pooled connection string** (DATABASE_URL) 
+4. Kopieer de **Direct connection string** (DIRECT_URL)
+
+**Stap 2: Deploy op Vercel**
 1. Push naar GitHub
 2. Connect repo op [vercel.com](https://vercel.com)
-3. Stel environment variables in (DATABASE_URL, NEXTAUTH_SECRET, NEXTAUTH_URL)
+3. Stel deze environment variables in:
+   - `DATABASE_URL` → Neon pooled connection string
+   - `DIRECT_URL` → Neon direct connection string
+   - `NEXTAUTH_SECRET` → `openssl rand -base64 32`
+   - `NEXTAUTH_URL` → `https://jouw-app.vercel.app`
 4. Deploy
+
+**Stap 3: Database tables aanmaken**
+Na eerste deploy, run database migrations:
+```bash
+DATABASE_URL="jouw-neon-url" npx prisma db push
+```
 
 ### Docker
 ```dockerfile
